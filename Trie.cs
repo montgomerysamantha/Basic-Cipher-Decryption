@@ -67,9 +67,37 @@ namespace Project5
             }
         }
 
-        public bool WildcardSearch(string s)
+        public bool WildcardSearch(string word)
         {
-            return true;
+            if (word == "" && _isWord) return true;
+            else if (word == "" && !_isWord) return false;
+            else
+            {
+                if (word[0] != "?") //if the first letter is a real letter
+                {
+                    //follow that child recursively (just like Contains)
+                    char first = word[0];
+                    int index = first - 'a';
+                    if (_children[index] == null)
+                    {
+                        return false;
+                    }
+                    return _children[index].WildcardSearch(word.Substring(1));
+                }
+                else //if the first letter is a ?
+                {
+                    //loop through all children, 
+                    //try recursive calls on all
+                    for (int i = 0; i < _children.Length; i++)
+                    {
+                        //if ANY recursive calls return true->you return true
+                        if (_children[i].WildcardSearch(word.Substring(1))) return true;
+                    }
+
+                    //after loop, if still there, return false
+                    return false;
+                }
+            }
         }
     }
 }
