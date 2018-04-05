@@ -2,6 +2,9 @@
 
 namespace Project5
 {
+    /// <summary>
+    /// The Trie data structure that holds the dictionary.txt file
+    /// </summary>
     class Trie
     {
         private bool _isWord = false;
@@ -81,6 +84,14 @@ namespace Project5
             }
         }
 
+        /// <summary>
+        /// Recursive method for finding words in the trie. 
+        /// For example, if string word was “?a?a?a”, then WildcardSearch should return true 
+        /// because “banana” (and possibly other words) is a word in the trie and 
+        /// matches that wildcard search, since each ‘?’ can be matched by any letter.
+        /// </summary>
+        /// <param name="word">The string that contains ? for certain letters.</param>
+        /// <returns>Returns true if the string word is a possible word in the trie</returns>
         public bool WildcardSearch(string word)
         {
             if (word == "" && _isWord) return true;

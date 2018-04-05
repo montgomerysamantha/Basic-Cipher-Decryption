@@ -13,6 +13,11 @@ using System.Windows.Forms;
 
 namespace Project5
 {
+    /// <summary>
+    /// The User Interface class. Reads in the dictionary file and has click events
+    /// for Get Message from File button (so the user can select a file to load in for their message)
+    /// and Decrypt (which unencrypts the message the user entered).
+    /// </summary>
     public partial class UserInterface : Form
     {
         private Trie _words;
@@ -37,6 +42,14 @@ namespace Project5
             }
         }
 
+        /// <summary>
+        /// A recursive method for finding if message the user entered has a
+        /// solution.
+        /// </summary>
+        /// <param name="cipher">the initial message the user enters</param>
+        /// <param name="partial">a SB of the partially solved message with ? characters for the letters that haven't been decrypted</param>
+        /// <param name="alphaUsed">boolean array of size 26 for the letters we have used so far, ex: alphaUsed[0] represents if 'a' has been used, [1] is 'b' and so on</param>
+        /// <returns></returns>
         private bool Decrypt(string[] cipher, StringBuilder[] partial, bool[] alphaUsed)
         {
             //string[] cipher – the words of the encrypted message
@@ -82,38 +95,47 @@ namespace Project5
 
             //recursive case
             //choose the first available ? position. (which word, which letter)
-            int indexq = 0; //the index of the question mark in the word
-            int indexp = 0; //the index of the word in partial
+            int indexquestmark = 0; //the index of the question mark in the word
+            int indexpartial = 0; //the index of the word in partial
             for (int i = 0; i < partial.Length; i++)
             {
                 if (partial[i].ToString().Contains("?"))
                 {
-                    indexq = partial[i].ToString().IndexOf("?");
-                    indexp = i;
+                    indexquestmark = partial[i].ToString().IndexOf("?");
+                    indexpartial = i;
                     break;
                 }
             }
-            //StringBuilder str = partial[indexp];
-            //str[indexq] the position where the question mark is
+            //StringBuilder str = partial[indexpartial];
+            //str[indexquestmark] the position where the question mark is
             for (int i = 0; i < alphaUsed.Length; i++)
             {
                 if (!alphaUsed[i]) //if we haven't used it yet
                 {
                     char replace = alphabet[i]; //get the letter we want to sub in
-                    ReplaceChar(cipher, partial, cipher[indexp][indexq], replace);
+                    ReplaceChar(cipher, partial, cipher[indexpartial][indexquestmark], replace);
                     alphaUsed[i] = true;
-                    //partial[indexp] = temp;
+                    //partial[indexpartial] = temp;
 
                     if (Decrypt(cipher, partial, alphaUsed)) return true;
                     //undo changes
                     alphaUsed[i] = false;
-                    //partial[indexp] = str; 
-                    ReplaceChar(cipher, partial, cipher[indexp][indexq], '?');
+                    //partial[indexpartial] = str; 
+                    ReplaceChar(cipher, partial, cipher[indexpartial][indexquestmark], '?');
                 }
             }
             return false;
         }
 
+        /// <summary>
+        /// Replaces all occurences of a certain letter in partial by checking to see
+        /// where char c is in cipher[i] and replacing the ? with char replace at the
+        /// same index in partial
+        /// </summary>
+        /// <param name="cipher">the encrypted message</param>
+        /// <param name="partial">the partially solved puzzle with ?s for unknowns</param>
+        /// <param name="c">the letter we are looking for in cipher</param>
+        /// <param name="replace">the letter we want to replace c with in partial</param>
         private void ReplaceChar(string[] cipher, StringBuilder[] partial, char c, char replace)
         {
             for (int i = 0; i < cipher.Length; i++)
@@ -131,6 +153,13 @@ namespace Project5
             }
         }
 
+        /// <summary>
+        /// The click event to the GetMessage button.
+        /// Reads in an input file that the user chooses and updates
+        /// the textbox with the contents of the file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void uxGetMessageButton_Click(object sender, EventArgs e)
         {
             try
@@ -156,11 +185,29 @@ namespace Project5
             }
         }
 
+        /// <summary>
+        /// Looks for any non spaces and non letters in a string and returns
+        /// false if it finds any.
+        /// </summary>
+        /// <param name="expression">the string we're looking at</param>
+        /// <returns>Returns true if the expression is all letters and spaces. No other characters allowed.</returns>
         private bool IsProperFormat(string expression)
         {
             return Regex.IsMatch(expression, @"^[a-zA-Z ]+$");
         }
 
+        /// <summary>
+        /// The Decrypt Button click event. 
+        /// Makes sb partial - a stringbuilder the same length as cipher with
+        /// "???? ?????" replacing all the words in cipher. Essentially a copy
+        /// of cipher's words but with question marks instead.
+        /// Calls the decrypt method to find the solution to
+        /// the cipher.
+        /// Updates uxSolvedTextbox with the
+        /// solution (if there is one).
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void uxDecryptButton_Click(object sender, EventArgs e)
         {
             string message = uxTextbox.Text.ToLower().Trim();

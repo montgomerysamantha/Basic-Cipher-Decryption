@@ -94,6 +94,7 @@
             this.Controls.Add(this.uxGetMessageButton);
             this.Controls.Add(this.uxTextbox);
             this.Controls.Add(this.uxMessageLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "UserInterface";
             this.Text = "Crypto Solver";
             this.ResumeLayout(false);
