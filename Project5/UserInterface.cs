@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -155,36 +156,48 @@ namespace Project5
             }
         }
 
+        private bool IsProperFormat(string expression)
+        {
+            return Regex.IsMatch(expression, @"^[a-zA-Z ]+$");
+        }
+
         private void uxDecryptButton_Click(object sender, EventArgs e)
         {
-            string message = uxTextbox.Text;
-            char[] delims = {' '};
-            string[] cipher = message.Split(delims, StringSplitOptions.RemoveEmptyEntries);
-            int size = cipher.Length;
-            StringBuilder[] partial = new StringBuilder[size];
-            for (int i = 0; i < partial.Length; i++)
+            string message = uxTextbox.Text.ToLower().Trim();
+            if (IsProperFormat(message))
             {
-                partial[i] = new StringBuilder(); //create a new stringbuilder
-                int length = cipher[i].Length; //get the length of the cipher word
-                for (int j = 0; j < length; j++)
-                {
-                    partial[i].Append("?"); //make the sb have the amount of "?" that matches the length of the cipher word
-                }
-            }
-
-            bool[] alphaUsed = new bool[26];
-            if (Decrypt(cipher, partial, alphaUsed))
-            {
-                StringBuilder answer = new StringBuilder();
+                char[] delims = { ' ' };
+                string[] cipher = message.Split(delims, StringSplitOptions.RemoveEmptyEntries);
+                int size = cipher.Length;
+                StringBuilder[] partial = new StringBuilder[size];
                 for (int i = 0; i < partial.Length; i++)
                 {
-                    answer.Append(partial[i].ToString() + " ");
+                    partial[i] = new StringBuilder(); //create a new stringbuilder
+                    int length = cipher[i].Length; //get the length of the cipher word
+                    for (int j = 0; j < length; j++)
+                    {
+                        partial[i].Append("?"); //make the sb have the amount of "?" that matches the length of the cipher word
+                    }
                 }
-                uxSolvedTextbox.Text = answer.ToString();
+
+                bool[] alphaUsed = new bool[26];
+                if (Decrypt(cipher, partial, alphaUsed))
+                {
+                    StringBuilder answer = new StringBuilder();
+                    for (int i = 0; i < partial.Length; i++)
+                    {
+                        answer.Append(partial[i].ToString() + " ");
+                    }
+                    uxSolvedTextbox.Text = answer.ToString();
+                }
+                else
+                {
+                    uxSolvedTextbox.Text = "Error: No solution exists.";
+                }
             }
             else
             {
-                MessageBox.Show("Error");
+                uxSolvedTextbox.Text = "Error: only letters and spaces are allowed.";
             }
         }
     }

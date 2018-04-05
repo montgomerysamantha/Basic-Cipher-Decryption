@@ -84,10 +84,6 @@
             this.uxSolvedTextbox.Size = new System.Drawing.Size(424, 109);
             this.uxSolvedTextbox.TabIndex = 4;
             // 
-            // uxOpenDialog
-            // 
-            this.uxOpenDialog.FileName = "uxFile";
-            // 
             // UserInterface
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
