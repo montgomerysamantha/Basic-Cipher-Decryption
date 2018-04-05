@@ -33,6 +33,7 @@
             this.uxGetMessageButton = new System.Windows.Forms.Button();
             this.uxDecryptButton = new System.Windows.Forms.Button();
             this.uxSolvedTextbox = new System.Windows.Forms.TextBox();
+            this.uxOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // uxMessageLabel
@@ -61,6 +62,7 @@
             this.uxGetMessageButton.TabIndex = 2;
             this.uxGetMessageButton.Text = "Get Message From File";
             this.uxGetMessageButton.UseVisualStyleBackColor = true;
+            this.uxGetMessageButton.Click += new System.EventHandler(this.uxGetMessageButton_Click);
             // 
             // uxDecryptButton
             // 
@@ -70,6 +72,7 @@
             this.uxDecryptButton.TabIndex = 3;
             this.uxDecryptButton.Text = "Decrypt";
             this.uxDecryptButton.UseVisualStyleBackColor = true;
+            this.uxDecryptButton.Click += new System.EventHandler(this.uxDecryptButton_Click);
             // 
             // uxSolvedTextbox
             // 
@@ -80,6 +83,10 @@
             this.uxSolvedTextbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.uxSolvedTextbox.Size = new System.Drawing.Size(424, 109);
             this.uxSolvedTextbox.TabIndex = 4;
+            // 
+            // uxOpenDialog
+            // 
+            this.uxOpenDialog.FileName = "uxFile";
             // 
             // UserInterface
             // 
@@ -105,6 +112,7 @@
         private System.Windows.Forms.Button uxGetMessageButton;
         private System.Windows.Forms.Button uxDecryptButton;
         private System.Windows.Forms.TextBox uxSolvedTextbox;
+        private System.Windows.Forms.OpenFileDialog uxOpenDialog;
     }
 }
 
