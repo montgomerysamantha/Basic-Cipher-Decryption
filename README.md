@@ -1,4 +1,4 @@
-# Basic-Cipher-Decryption
+# Basic Cipher Decryption
 
 This program decrypts a message encrypted with a simple [substitution cipher](https://en.wikipedia.org/wiki/Substitution_cipher). 
 
