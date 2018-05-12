@@ -64,6 +64,8 @@ namespace Project5
             //bool[] alphaUsed – a size-26 array that keeps track of which lowercase letters have been used in the 
             //decryption. Spot 0 corresponds to ‘a’, spot 1 corresponds to ‘b’, etc.For each non -‘?’ character in partial,
             //that corresponding position in alphaUsed will be true.
+
+            //this is a char array for easy access to the index of the letters in the alphabet
             char[] alphabet = {'a', 'b', 'c', 'd', 'e',
                    'f', 'g', 'h', 'i', 'j',
                    'k', 'l', 'm', 'n', 'o',
@@ -106,7 +108,7 @@ namespace Project5
                     break;
                 }
             }
-            //StringBuilder str = partial[indexpartial];
+
             //str[indexquestmark] the position where the question mark is
             for (int i = 0; i < alphaUsed.Length; i++)
             {
@@ -120,7 +122,6 @@ namespace Project5
                     if (Decrypt(cipher, partial, alphaUsed)) return true;
                     //undo changes
                     alphaUsed[i] = false;
-                    //partial[indexpartial] = str; 
                     ReplaceChar(cipher, partial, cipher[indexpartial][indexquestmark], '?');
                 }
             }
@@ -211,6 +212,7 @@ namespace Project5
         private void uxDecryptButton_Click(object sender, EventArgs e)
         {
             string message = uxTextbox.Text.ToLower().Trim();
+
             if (IsProperFormat(message))
             {
                 char[] delims = { ' ' };
@@ -227,7 +229,7 @@ namespace Project5
                     }
                 }
 
-                bool[] alphaUsed = new bool[26];
+                bool[] alphaUsed = new bool[26]; //new fresh array to pass in when we call the Decrypt method
                 if (Decrypt(cipher, partial, alphaUsed))
                 {
                     StringBuilder answer = new StringBuilder();
