@@ -2,7 +2,7 @@
 
 This program decrypts a message encrypted with a simple [substitution cipher](https://en.wikipedia.org/wiki/Substitution_cipher). 
 
-![alt text](http://www.stealthcopter.com/blog/wp-content/uploads/2009/12/320px-Substitution.png)
+![substitution cipher visual](http://www.stealthcopter.com/blog/wp-content/uploads/2009/12/320px-Substitution.png)
 
 As an example of a potential cipher used:
 
